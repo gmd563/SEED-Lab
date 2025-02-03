@@ -1,13 +1,34 @@
 from smbus2 import SMBus
 from time import sleep
 
+# I2C address of the Arduino, set in Arduino sketch
 ARD_ADDR = 8
-i2c = SMBus(1)
-offset = 1
 
+# Initialize SMBus library with I2C bus 1
+i2c = SMBus(1)
+
+# Do in a loop
 while(True):
-	string = input(“Enter a string, or 0 to quit: “)
-	if string == “0”:
-		break
-	command = [ord(character) for character in string]
-	i2c.write_i2c_block_data(ARD_ADDR, offset, command)
+    # Get user input for offset
+    offset = int(input("Enter an offset (7 to quit): "))
+    
+    # Provide an exit key
+    if(offset == 7):
+        break
+
+    # Get user input for command
+    string = input("Enter an 32 characters or less: ")
+
+    # Write a byte to the i2c bus
+    command = [ord(character) for character in string]
+
+    try:
+        # Ask the Arduino to take an encoder reading
+        i2c.write_i2c_block_data(ARD_ADDR, offset, command)
+
+    except IOError:
+        print("Could not write data to the Arduino.")
+
+sleep(.1)
+reply = i2c.read_byte_data(ARD_ADDR, offset)
+print("Received from Arduino: "+str(reply))
