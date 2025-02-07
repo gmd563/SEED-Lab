@@ -1,3 +1,7 @@
+# Grace Davis
+# Assignment 2 - 1a
+# This is the arduino code that interpretes the message sent from the python file 1a.py
+
 #include <Wire.h>
 #define MY_ADDR 8
 
