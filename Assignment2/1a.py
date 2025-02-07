@@ -1,3 +1,7 @@
+# Grace Davis
+# Assignment 2 - 1a
+# This is the python code that sends a message to the arduino
+
 from smbus2 import SMBus
 from time import sleep
 
